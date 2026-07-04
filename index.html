@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบแปลงคำเป็นภาษาราชาศัพท์</title>
+    <title>Gen Z & Gen Alpha Translator</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Kanit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f7f9fa;
+            background: linear-gradient(135deg, #ff007f, #7f00ff);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -21,21 +21,30 @@
         }
 
         .container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 600px;
-            border-top: 8px solid #d4af37; /* สีทองราชาศัพท์ */
+            border: 4px solid #00ffff; /* ขอบสีนีออน */
         }
 
         h2 {
-            color: #333;
+            color: #111;
             text-align: center;
             margin-top: 0;
-            margin-bottom: 20px;
-            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 28px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 14px;
         }
 
         .input-group {
@@ -45,62 +54,71 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #666;
+            color: #333;
+            font-weight: bold;
             font-size: 14px;
         }
 
         textarea {
             width: 100%;
             height: 120px;
-            padding: 12px;
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
             resize: vertical;
             font-size: 16px;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
 
         textarea:focus {
             outline: none;
-            border-color: #d4af37;
+            border-color: #ff007f;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
         }
 
         button {
             width: 100%;
-            background-color: #d4af37;
+            background: linear-gradient(45deg, #ff007f, #7f00ff);
             color: white;
             border: none;
-            padding: 14px;
-            font-size: 16px;
+            padding: 16px;
+            font-size: 18px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(127, 0, 255, 0.4);
         }
 
         button:hover {
-            background-color: #aa8c2c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(127, 0, 255, 0.6);
+        }
+
+        button:active {
+            transform: translateY(1px);
         }
 
         .output-group {
             margin-top: 25px;
-            background: #fffdf3;
-            border: 1px dashed #d4af37;
-            border-radius: 8px;
-            padding: 15px;
-            min-height: 80px;
+            background: #222;
+            border-radius: 12px;
+            padding: 20px;
+            color: #00ffff; /* ตัวหนังสือสีนีออนฟีลเกมเมอร์ */
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .output-title {
             font-weight: bold;
-            color: #aa8c2c;
-            margin-bottom: 8px;
+            color: #ff007f;
+            margin-bottom: 10px;
             font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         #result {
-            font-size: 16px;
-            color: #2c3e50;
+            font-size: 18px;
             white-space: pre-wrap;
             line-height: 1.6;
         }
@@ -109,94 +127,89 @@
 <body>
 
 <div class="container">
-    <h2>👑 ระบบแปลงเป็นคำราชาศัพท์</h2>
+    <h2>🚀 แปลงไทยเป็นศัพท์วัยรุ่น</h2>
+    <div class="subtitle">Gen Z / Gen Alpha ตัวมารดา สมองไหลแบบโฮ่งๆ</div>
     
     <div class="input-group">
-        <label for="inputText">พิมพ์ข้อความหรือประโยคทั่วไปที่นี่:</label>
-        <textarea id="inputText" placeholder="ตัวอย่าง: ฉัน กินข้าว แล้ว นอนหลับ แขน ของฉัน เจ็บ..."></textarea>
+        <label for="inputText">พิมพ์ประโยคปกติที่นี่:</label>
+        <textarea id="inputText" placeholder="ตัวอย่าง: สุดยอดมากเลยเธอ ดีมาก หล่อมาก ตลกมาก แย่แล้ว..."></textarea>
     </div>
     
-    <button onclick="convertToRoyal()">✨ แปลงเป็นคำราชาศัพท์</button>
+    <button onclick="convertToGenZ()">✨ เปลี่ยนให้เป็นตัวพ่อตัวแม่</button>
     
     <div class="output-group">
-        <div class="output-title">ผลลัพธ์ภาษาราชาศัพท์:</div>
-        <div id="result">ผลลัพธ์จะปรากฏตรงนี้...</div>
+        <div class="output-title">ผลลัพธ์ (Output):</div>
+        <div id="result">ฟีลจะขึ้นตรงนี้แก...</div>
     </div>
 </div>
 
 <script>
-    // คลังคำศัพท์ (Dictionary) สำหรับจับคู่คำทั่วไป -> คำราชาศัพท์
-    // สามารถมาเพิ่มคำศัพท์ตรงนี้ได้เรื่อยๆ ครับ
-    const royalDictionary = {
-        "กินข้าว": "เสวยพระกระยาหาร",
-        "กิน": "เสวย",
-        "นอนหลับ": "บรรทม",
-        "นอน": "บรรทม",
-        "ไป": "เสด็จพระราชดำเนิน",
-        "มา": "เสด็จมา",
-        "พูด": "ตรัส",
-        "บอก": "ตรัส",
-        "หัวเราะ": "ทรงพระสรวล",
-        "ร้องไห้": "ทรงพระกันแสง",
-        "โกรธ": "ทรงพระพิโรธ",
-        "ดีใจ": "ทรงพระปรีดา",
-        "ป่วย": "ทรงพระประชวร",
-        "อาบน้ำ": "สรงน้ำ",
-        "แต่งตัว": "ทรงเครื่อง",
-        "ให้": "พระราชทาน",
-        "คิด": "ทรงพระราชดำริ",
-        "อยากได้": "พระราชประสงค์",
-        
-        // หมวดร่างกาย / เครือญาติ
-        "หัว": "พระเศียร",
-        "ผม": "พระเกศา",
-        "หน้า": "พระพักตร์",
-        "ตา": "พระเนตร",
-        "หู": "พระกรรณ",
-        "จมูก": "พระนาสิก",
-        "ปาก": "พระโอษฐ์",
-        "ฟัน": "#พระทนต์",
-        "มือ": "พระหัตถ์",
-        "เท้า": "#พระบาท",
-        "แขน": "#พระพาหา",
-        "ขา": "#พระเพลา",
-        "ใจ": "#พระราชหฤทัย",
-        
-        "พ่อ": "พระบรมชนกนาถ",
-        "แม่": "#พระราชชนนี",
-        "พี่ชาย": "#พระเชษฐา",
-        "น้องชาย": "#พระอนุชา",
-        "พี่สาว": "#พระเชษฐภคินี",
-        "น้องสาว": "#พระขนิษฐา",
-        "ลูก": "#พระราชโอรส/พระราชธิดา",
+    // คลังศัพท์ Gen Z & Gen Alpha (ยิ่งยาวยิ่งอยู่บน ป้องกันโค้ดเอ๋อ)
+    const slangsDictionary = {
+        // หมวดชมเชย / สุดยอด
+        "สุดยอดมากเลย": "ตัวมารดาจะแคร์เพื่อ โฮ่งเกินคุณน้า",
+        "สุดยอดมาก": "โฮ่งมากคุณน้า",
+        "ดีมากเลย": "เริ่ดเกินต้าน คุณน้าชื่นชม",
+        "ดีมาก": "โฮ่งอ่ะ",
+        "เก่งมาก": "ตัวพ่อตัวแม่จัดๆ",
+        "สวยมาก": "สวยสร้างเรื่อง สวยจึ้ง สวยตะโกน",
+        "หล่อมาก": "หล่อวัวตายควายล้ม หล่อแบบมีอยู่จริง",
+        "น่ารักมาก": "น่ารักแบบตะโกน น่ารักกิ๊งๆ",
+        "อร่อยมาก": "อร่อยแสงออกปาก",
 
-        // สรรพนาม
-        "ฉัน": "ข้าพระพุทธเจ้า",
-        "ผม": "ข้าพระพุทธเจ้า",
-        "เรา": "ข้าพระพุทธเจ้า"
+        // หมวดคำอุทาน / อารมณ์ / สถานการณ์
+        "แย่แล้ว": "งานเข้าละแก ช็อตฟีลจัด",
+        "ตลกมาก": "ขำจนขิต ขำแบบสมองไหล",
+        "จริงเหรอ": "จริงป่ะแก ช็อตฟีลละนะ",
+        "เรื่องจริง": "เรื่องจริงไม่จี้จ้า",
+        "ตื่นเต้น": "ใจฟูไม่ไหว",
+        "อิจฉา": "ตาร้อนผ่าวๆ",
+        "เข้าใจไหม": "เคลียร์ป่ะคุณน้า",
+        "โกหก": "แกงกันป่ะเนี่ย อย่ามาตบตา",
+        "เพ้อเจ้อ": "คิดไปเองเก่งงงง",
+
+        // ศัพท์คำเดี่ยว / สรรพนาม / ลงท้าย
+        "มากๆ": "แบบฉ่ำ",
+        "มาก": "จัดๆ",
+        "เธอ": "คุณน้า",
+        "แก": "แกรรร",
+        "เพื่อน": "แก๊งตัวเจ็บ",
+        "คนสวย": "ตัวมัม",
+        "ผู้ชาย": "งานดี",
+        "ผู้หญิง": "ชี",
+        "ใช่เลย": "ตัวจริง",
+        "ชอบ": "เลิฟเลย",
+
+        // โบนัสหมวด Gen Alpha (สมองไหล/Skibidi)
+        "สิกิบิดี้": "Skibidi",
+        "คนเท่": "Sigma",
+        "มีเสน่ห์": "Rizz",
+        "แย่": "Ohio จัดๆ"
     };
 
-    function convertToRoyal() {
+    function convertToGenZ() {
         let text = document.getElementById("inputText").value;
         
         if (!text.trim()) {
-            document.getElementById("result").innerText = "กรุณาพิมพ์ประโยคก่อนกดแปลงครับ";
+            document.getElementById("result").innerText = "พิมพ์ไรหน่อยดิคุณน้า อย่ามาว่างเปล่า!";
             return;
         }
 
-        // นำคลังคำศัพท์มาวนลูปเพื่อแทนที่คำในประโยค
         let convertedText = text;
         
-        // เรียงลำดับคำใน Dictionary ให้คำที่ยาวกว่าอยู่ก่อน เพื่อป้องกันการแทนที่ผิดพลาด (เช่น "กินข้าว" ต้องแปลก่อน "กิน")
-        const sortedKeys = Object.keys(royalDictionary).sort((a, b) => b.length - a.length);
+        // เรียงลำดับคีย์จากยาวไปสั้น
+        const sortedKeys = Object.keys(slangsDictionary).sort((a, b) => b.length - a.length);
 
         for (let key of sortedKeys) {
-            // ใช้ Regular Expression ในการเปลี่ยนทุกคำที่เจอในประโยค
             let regex = new RegExp(key, "g");
-            convertedText = convertedText.replace(regex, royalDictionary[key]);
+            convertedText = convertedText.replace(regex, slangsDictionary[key]);
         }
 
-        // แสดงผลลัพธ์
+        // เติมคำสร้อยปิดท้ายให้ฟีลวัยรุ่นยิ่งขึ้น (สุ่มแบบขำๆ หรือต่อท้าย)
+        if (!convertedText.endsWith("คุณน้า") && !convertedText.endsWith("จัดๆ")) {
+            convertedText += " นะคุณน้าาา!";
+        }
+
         document.getElementById("result").innerText = convertedText;
     }
 </script>
