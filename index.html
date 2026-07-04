@@ -3,216 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gen Z & Gen Alpha Translator</title>
+    <title>AI Image Generator - เว็บสร้างภาพตามสั่ง</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Kanit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
-            background: linear-gradient(135deg, #ff007f, #7f00ff);
-            margin: 0;
-            padding: 20px;
+            background: linear-gradient(135deg, #1e1e2f, #252542);
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
-
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             width: 100%;
             max-width: 600px;
-            border: 4px solid #00ffff; /* ขอบสีนีออน */
-        }
-
-        h2 {
-            color: #111;
             text-align: center;
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 28px;
-            font-weight: 800;
-            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 14px;
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #4facfe;
         }
-
         .input-group {
+            display: flex;
+            gap: 10px;
             margin-bottom: 20px;
         }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 120px;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            resize: vertical;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #ff007f;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
-        }
-
-        button {
-            width: 100%;
-            background: linear-gradient(45deg, #ff007f, #7f00ff);
-            color: white;
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 8px;
             border: none;
-            padding: 16px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(127, 0, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
         }
-
+        input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+        }
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(127, 0, 255, 0.6);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
         }
-
-        button:active {
-            transform: translateY(1px);
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
-
-        .output-group {
-            margin-top: 25px;
-            background: #222;
+        .result-box {
+            margin-top: 20px;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
             border-radius: 12px;
-            padding: 20px;
-            color: #00ffff; /* ตัวหนังสือสีนีออนฟีลเกมเมอร์ */
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
         }
-
-        .output-title {
-            font-weight: bold;
-            color: #ff007f;
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        img {
+            width: 100%;
+            height: auto;
+            display: none;
+            border-radius: 8px;
         }
-
-        #result {
-            font-size: 18px;
-            white-space: pre-wrap;
-            line-height: 1.6;
+        .loader {
+            display: none;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #4facfe;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .placeholder-text {
+            color: #aaa;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>🚀 แปลงไทยเป็นศัพท์วัยรุ่น</h2>
-    <div class="subtitle">Gen Z / Gen Alpha ตัวมารดา สมองไหลแบบโฮ่งๆ</div>
-    
-    <div class="input-group">
-        <label for="inputText">พิมพ์ประโยคปกติที่นี่:</label>
-        <textarea id="inputText" placeholder="ตัวอย่าง: สุดยอดมากเลยเธอ ดีมาก หล่อมาก ตลกมาก แย่แล้ว..."></textarea>
-    </div>
-    
-    <button onclick="convertToGenZ()">✨ เปลี่ยนให้เป็นตัวพ่อตัวแม่</button>
-    
-    <div class="output-group">
-        <div class="output-title">ผลลัพธ์ (Output):</div>
-        <div id="result">ฟีลจะขึ้นตรงนี้แก...</div>
-    </div>
-</div>
-
-<script>
-    // คลังศัพท์ Gen Z & Gen Alpha (ยิ่งยาวยิ่งอยู่บน ป้องกันโค้ดเอ๋อ)
-    const slangsDictionary = {
-        // หมวดชมเชย / สุดยอด
-        "สุดยอดมากเลย": "ตัวมารดาจะแคร์เพื่อ โฮ่งเกินคุณน้า",
-        "สุดยอดมาก": "โฮ่งมากคุณน้า",
-        "ดีมากเลย": "เริ่ดเกินต้าน คุณน้าชื่นชม",
-        "ดีมาก": "โฮ่งอ่ะ",
-        "เก่งมาก": "ตัวพ่อตัวแม่จัดๆ",
-        "สวยมาก": "สวยสร้างเรื่อง สวยจึ้ง สวยตะโกน",
-        "หล่อมาก": "หล่อวัวตายควายล้ม หล่อแบบมีอยู่จริง",
-        "น่ารักมาก": "น่ารักแบบตะโกน น่ารักกิ๊งๆ",
-        "อร่อยมาก": "อร่อยแสงออกปาก",
-
-        // หมวดคำอุทาน / อารมณ์ / สถานการณ์
-        "แย่แล้ว": "งานเข้าละแก ช็อตฟีลจัด",
-        "ตลกมาก": "ขำจนขิต ขำแบบสมองไหล",
-        "จริงเหรอ": "จริงป่ะแก ช็อตฟีลละนะ",
-        "เรื่องจริง": "เรื่องจริงไม่จี้จ้า",
-        "ตื่นเต้น": "ใจฟูไม่ไหว",
-        "อิจฉา": "ตาร้อนผ่าวๆ",
-        "เข้าใจไหม": "เคลียร์ป่ะคุณน้า",
-        "โกหก": "แกงกันป่ะเนี่ย อย่ามาตบตา",
-        "เพ้อเจ้อ": "คิดไปเองเก่งงงง",
-
-        // ศัพท์คำเดี่ยว / สรรพนาม / ลงท้าย
-        "มากๆ": "แบบฉ่ำ",
-        "มาก": "จัดๆ",
-        "เธอ": "คุณน้า",
-        "แก": "แกรรร",
-        "เพื่อน": "แก๊งตัวเจ็บ",
-        "คนสวย": "ตัวมัม",
-        "ผู้ชาย": "งานดี",
-        "ผู้หญิง": "ชี",
-        "ใช่เลย": "ตัวจริง",
-        "ชอบ": "เลิฟเลย",
-
-        // โบนัสหมวด Gen Alpha (สมองไหล/Skibidi)
-        "สิกิบิดี้": "Skibidi",
-        "คนเท่": "Sigma",
-        "มีเสน่ห์": "Rizz",
-        "แย่": "Ohio จัดๆ"
-    };
-
-    function convertToGenZ() {
-        let text = document.getElementById("inputText").value;
+    <div class="container">
+        <h1>🎨 ระบบสร้างภาพด้วย AI</h1>
         
-        if (!text.trim()) {
-            document.getElementById("result").innerText = "พิมพ์ไรหน่อยดิคุณน้า อย่ามาว่างเปล่า!";
-            return;
+        <div class="input-group">
+            <input type="text" id="promptInput" placeholder="พิมพ์สิ่งที่คุณต้องการเห็น (แนะนำภาษาอังกฤษ)...">
+            <button id="generateBtn" onclick="generateImage()">เสกภาพ!</button>
+        </div>
+
+        <div class="result-box">
+            <div class="loader" id="loader"></div>
+            <p class="placeholder-text" id="placeholderText">ภาพของคุณจะปรากฏตรงนี้...</p>
+            <img id="outputImage" alt="AI Generated Image">
+        </div>
+    </div>
+
+    <script>
+        function generateImage() {
+            const promptInput = document.getElementById('promptInput').value.trim();
+            const generateBtn = document.getElementById('generateBtn');
+            const loader = document.getElementById('loader');
+            const placeholderText = document.getElementById('placeholderText');
+            const outputImage = document.getElementById('outputImage');
+
+            // ตรวจสอบว่าพิมพ์ข้อความหรือยัง
+            if (!promptInput) {
+                alert('กรุณาพิมพ์ข้อความก่อนครับ!');
+                return;
+            }
+
+            // เปิดโหมดโหลดเดอร์ และปิดปุ่มกดชั่วคราว
+            generateBtn.disabled = true;
+            generateBtn.innerText = 'กำลังเสกภาพ...';
+            loader.style.display = 'block';
+            placeholderText.style.display = 'none';
+            outputImage.style.display = 'none';
+
+            // แปลงข้อความเป็น URL-friendly (สุ่มตัวเลขด้านหลังเพื่อให้ได้ภาพใหม่เสมอ ไม่ติดแคช)
+            const encodedPrompt = encodeURIComponent(promptInput);
+            const randomNumber = Math.floor(Math.random() * 100000);
+            
+            // ใช้ API ของ Pollinations AI (โมเดล Flux ล่าสุด สวยงามมาก)
+            const imageUrl = `https://image.pollinations.ai/p/${encodedPrompt}?width=1024&height=1024&seed=${randomNumber}&nologo=true`;
+
+            // โหลดภาพเข้ามาในแท็ก <img>
+            outputImage.src = imageUrl;
+
+            // เมื่อภาพโหลดเสร็จแล้ว ให้แสดงผล
+            outputImage.onload = function() {
+                loader.style.display = 'none';
+                outputImage.style.display = 'block';
+                generateBtn.disabled = false;
+                generateBtn.innerText = 'เสกภาพ!';
+            };
+
+            // กรณีเกิดข้อผิดพลาดในการโหลดภาพ
+            outputImage.onerror = function() {
+                loader.style.display = 'none';
+                placeholderText.style.display = 'block';
+                placeholderText.innerText = 'เกิดข้อผิดพลาดในการสร้างภาพ กรุณาลองใหม่อีกครั้ง';
+                generateBtn.disabled = false;
+                generateBtn.innerText = 'เสกภาพ!';
+            };
         }
-
-        let convertedText = text;
-        
-        // เรียงลำดับคีย์จากยาวไปสั้น
-        const sortedKeys = Object.keys(slangsDictionary).sort((a, b) => b.length - a.length);
-
-        for (let key of sortedKeys) {
-            let regex = new RegExp(key, "g");
-            convertedText = convertedText.replace(regex, slangsDictionary[key]);
-        }
-
-        // เติมคำสร้อยปิดท้ายให้ฟีลวัยรุ่นยิ่งขึ้น (สุ่มแบบขำๆ หรือต่อท้าย)
-        if (!convertedText.endsWith("คุณน้า") && !convertedText.endsWith("จัดๆ")) {
-            convertedText += " นะคุณน้าาา!";
-        }
-
-        document.getElementById("result").innerText = convertedText;
-    }
-</script>
+    </script>
 
 </body>
 </html>
